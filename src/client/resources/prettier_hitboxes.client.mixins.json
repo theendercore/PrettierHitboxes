@@ -1,0 +1,12 @@
+{
+	"required": true,
+	"package": "com.theendercore.prettier_hitbox.client.mixin",
+	"compatibilityLevel": "JAVA_17",
+	"client": [
+		"MinecraftClientMixin",
+		"EntityRenderDispatcherMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

@@ -1,18 +1,18 @@
-package com.errorgamer2000.mcplugins.prettyhitbox;
+package com.theendercore.prettier_hitbox.client;
 
 import me.fzzyhmstrs.fzzy_config.config.Config;
 import me.fzzyhmstrs.fzzy_config.config.ConfigGroup;
 import me.fzzyhmstrs.fzzy_config.validation.misc.ValidatedColor;
 import net.minecraft.util.Identifier;
 
-import static com.errorgamer2000.mcplugins.prettyhitbox.PrettyHitboxesModClient.MODID;
+import static com.theendercore.prettier_hitbox.client.PrettierHitboxesModClient.MODID;
 
-public class PrettyHitboxesConfig extends Config {
-    public PrettyHitboxesConfig() {
+@SuppressWarnings("unused")
+public class PrettierHitboxesConfig extends Config {
+    public PrettierHitboxesConfig() {
         super(Identifier.of(MODID, MODID));
     }
 
-    @SuppressWarnings("unused")
     public ConfigGroup features = new ConfigGroup("features");
     public boolean hitboxesEnabledByDefault = false;
     public boolean hideBigDragonBox = false;
@@ -27,7 +27,6 @@ public class PrettyHitboxesConfig extends Config {
     @ConfigGroup.Pop
     public boolean showThrowableItemHitboxes = true;
 
-    @SuppressWarnings("unused")
     public ConfigGroup colors = new ConfigGroup("colors");
     public ValidatedColor boundingBoxColor = new ValidatedColor(true);
     public ValidatedColor dragonPartColor = new ValidatedColor(0, 255, 0, 255);

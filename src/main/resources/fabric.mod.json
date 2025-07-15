@@ -1,30 +1,32 @@
 {
 	"schemaVersion": 1,
-	"id": "pretty-hitboxes",
+	"id": "prettier_hitboxes",
 	"version": "${version}",
-	"name": "Pretty Hitboxes",
+	"name": "Prettier Hitboxes",
 	"description": "Fully configurable hitbox rendering.",
 	"authors": [ "ErrorGamer2000", "TheEnderCore" ],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://modrinth.com/project/prettier-hitboxes",
+		"sources": "https://github.com/theendercore/PrettierHitboxes"
 	},
 	"license": "MIT",
-	"icon": "assets/pretty-hitboxes/icon.png",
+	"icon": "assets/prettier_hitboxes/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"client": [
-			"com.errorgamer2000.mcplugins.prettyhitbox.PrettyHitboxesModClient"
+			"com.theendercore.prettier_hitbox.client.PrettierHitboxesModClient"
 		]
 	},
 	"mixins": [
 		{
-			"config": "pretty-hitboxes.client.mixins.json",
+			"config": "prettier_hitboxes.client.mixins.json",
 			"environment": "client"
 		}
 	],
 	"depends": {
 		"fabricloader": ">=0.16.14",
+		"fabric": "*",
+		"fabric-api": "*",
 		"minecraft": ">=1.21",
 		"java": ">=21"
 	}
