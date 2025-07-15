@@ -1,7 +1,7 @@
 package com.errorgamer2000.mcplugins.prettyhitbox.mixin.client;
 
 import com.errorgamer2000.mcplugins.prettyhitbox.PrettyHitboxesConfig;
-import me.shedaniel.autoconfig.AutoConfig;
+import me.fzzyhmstrs.fzzy_config.validation.misc.ValidatedColor;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.WorldRenderer;
@@ -29,6 +29,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import static com.errorgamer2000.mcplugins.prettyhitbox.PrettyHitboxesModClient.CONFIG;
+
 @Mixin(EntityRenderDispatcher.class)
 public abstract class EntityRenderDispatcherMixin {
     @Shadow
@@ -36,8 +38,8 @@ public abstract class EntityRenderDispatcherMixin {
     }
 
     @Unique
-    private static float clampedColorValue(int colorValue, boolean isAlpha) {
-        return Math.min(1.0F, Math.max(0.0F, colorValue / (isAlpha ? 100.0F : 255.0F)));
+    private static float clampedColorValue(int colorValue) {
+        return Math.min(1.0F, Math.max(0.0F, colorValue / 255.0F));
     }
 
     @Unique
@@ -52,8 +54,8 @@ public abstract class EntityRenderDispatcherMixin {
     }
 
     @Unique
-    private static void drawBox(MatrixStack matrices, VertexConsumer vertices, Box box, PrettyHitboxesConfig.Color color) {
-        WorldRenderer.drawBox(matrices, vertices, box, clampedColorValue(color.red, false), clampedColorValue(color.green, false), clampedColorValue(color.blue, false), clampedColorValue(color.alpha, true));
+    private static void drawBox(MatrixStack matrices, VertexConsumer vertices, Box box, ValidatedColor color) {
+        WorldRenderer.drawBox(matrices, vertices, box, clampedColorValue(color.r()), clampedColorValue(color.g()), clampedColorValue(color.b()), clampedColorValue(color.a()));
     }
 
     /**
@@ -62,20 +64,18 @@ public abstract class EntityRenderDispatcherMixin {
      */
     @Inject(at = @At("HEAD"), method = "renderHitbox", cancellable = true)
     private static void renderHitbox(MatrixStack matrices, VertexConsumer vertices, Entity entity, float tickDelta, float red, float green, float blue, CallbackInfo ci) {
-        PrettyHitboxesConfig config = AutoConfig.getConfigHolder(PrettyHitboxesConfig.class).getConfig();
-
         Box box = entity.getBoundingBox().offset(-entity.getX(), -entity.getY(), -entity.getZ());
 
-        PrettyHitboxesConfig.Color bboxColor = config.boundingBoxColor;
-        PrettyHitboxesConfig.Color targetColor = config.entityTargetedColor;
-        if (config.showBoundingBox) {
+        ValidatedColor bboxColor = CONFIG.boundingBoxColor;
+        ValidatedColor targetColor = CONFIG.entityTargetedColor;
+        if (CONFIG.showBoundingBox) {
             if (!(entity instanceof EnderDragonEntity)) {
-                PrettyHitboxesConfig.Color color = entity instanceof ItemEntity ? config.itemHitboxColor : bboxColor;
-                if (config.differentColorWhenTargeted && isTargeted(entity)) color = targetColor;
-                if (!(entity instanceof ItemEntity && !config.showItemHitboxes) && !(entity instanceof ThrownItemEntity && !config.showThrowableItemHitboxes) && !(entity instanceof BoatEntity && !config.showBoatHitboxes) && !((entity instanceof PaintingEntity && !config.showPaintingHitboxes) || (entity instanceof ItemFrameEntity && !config.showItemFrameHitboxes)))
+                ValidatedColor color = entity instanceof ItemEntity ? CONFIG.itemHitboxColor : bboxColor;
+                if (CONFIG.differentColorWhenTargeted && isTargeted(entity)) color = targetColor;
+                if (!(entity instanceof ItemEntity && !CONFIG.showItemHitboxes) && !(entity instanceof ThrownItemEntity && !CONFIG.showThrowableItemHitboxes) && !(entity instanceof BoatEntity && !CONFIG.showBoatHitboxes) && !((entity instanceof PaintingEntity && !CONFIG.showPaintingHitboxes) || (entity instanceof ItemFrameEntity && !CONFIG.showItemFrameHitboxes)))
                     drawBox(matrices, vertices, box, color);
 
-            } else if (!config.hideBigDragonBox) {
+            } else if (!CONFIG.hideBigDragonBox) {
                 EnderDragonPart[] parts = ((EnderDragonEntity) entity).getBodyParts();
                 int partNum = parts.length;
 
@@ -84,7 +84,7 @@ public abstract class EntityRenderDispatcherMixin {
                     if (isTargeted(parts[i])) targeted = true;
                 }
 
-                PrettyHitboxesConfig.Color color = bboxColor;
+                ValidatedColor color = bboxColor;
                 if (targeted) color = targetColor;
                 drawBox(matrices, vertices, box, color);
             }
@@ -97,28 +97,27 @@ public abstract class EntityRenderDispatcherMixin {
             EnderDragonPart[] partsArray = ((EnderDragonEntity) entity).getBodyParts();
 
             for (EnderDragonPart dragonPart : partsArray) {
-                PrettyHitboxesConfig.Color color = config.dragonPartColor;
-                if (config.differentColorWhenTargeted && isTargeted(dragonPart)) color = targetColor;
+                ValidatedColor color = CONFIG.dragonPartColor;
+                if (CONFIG.differentColorWhenTargeted && isTargeted(dragonPart)) color = targetColor;
                 matrices.push();
                 double g = d + MathHelper.lerp(tickDelta, dragonPart.lastRenderX, dragonPart.getX());
                 double h = e + MathHelper.lerp(tickDelta, dragonPart.lastRenderY, dragonPart.getY());
                 double i = f + MathHelper.lerp(tickDelta, dragonPart.lastRenderZ, dragonPart.getZ());
                 matrices.translate(g, h, i);
-                if (config.showBoundingBox)
+                if (CONFIG.showBoundingBox)
                     drawBox(matrices, vertices, dragonPart.getBoundingBox().offset(-dragonPart.getX(), -dragonPart.getY(), -dragonPart.getZ()), color);
                 matrices.pop();
             }
         }
 
-        if (entity instanceof LivingEntity && config.showEyeHeight) {
-            PrettyHitboxesConfig.Color eyeHeightColor = config.eyeHeightColor;
+        if (entity instanceof LivingEntity && CONFIG.showEyeHeight) {
+            ValidatedColor eyeHeightColor = CONFIG.eyeHeightColor;
             float j = 0.01F;
-            WorldRenderer.drawBox(matrices, vertices, box.minX, entity.getStandingEyeHeight() - 0.01F, box.minZ, box.maxX, entity.getStandingEyeHeight() + 0.01F, box.maxZ, clampedColorValue(eyeHeightColor.red, false), clampedColorValue(eyeHeightColor.green, false), clampedColorValue(eyeHeightColor.blue, false), clampedColorValue(eyeHeightColor.alpha, true));
+            WorldRenderer.drawBox(matrices, vertices, box.minX, entity.getStandingEyeHeight() - 0.01F, box.minZ, box.maxX, entity.getStandingEyeHeight() + 0.01F, box.maxZ, clampedColorValue(eyeHeightColor.r()), clampedColorValue(eyeHeightColor.g()), clampedColorValue(eyeHeightColor.b()), clampedColorValue(eyeHeightColor.a()));
         }
 
-        if (config.showEntityRotationVector && !(entity instanceof ItemEntity && !config.showItemHitboxes) && !(entity instanceof ThrownItemEntity && !config.showThrowableItemHitboxes) && !(entity instanceof BoatEntity && !config.showBoatHitboxes) && !((entity instanceof PaintingEntity && !config.showPaintingHitboxes) || (entity instanceof ItemFrameEntity && !config.showItemFrameHitboxes))) {
-            PrettyHitboxesConfig.Color rotationVectorColor = config.entityRotationVectorColor;
-            drawVector(matrices, vertices, new Vector3f(0.0F, entity.getStandingEyeHeight(), 0.0F), entity.getRotationVec(tickDelta).multiply(2.0F), -16776961 /*CONFIG.entityRotationVectorColor*/);
+        if (CONFIG.showEntityRotationVector && !(entity instanceof ItemEntity && !CONFIG.showItemHitboxes) && !(entity instanceof ThrownItemEntity && !CONFIG.showThrowableItemHitboxes) && !(entity instanceof BoatEntity && !CONFIG.showBoatHitboxes) && !((entity instanceof PaintingEntity && !CONFIG.showPaintingHitboxes) || (entity instanceof ItemFrameEntity && !CONFIG.showItemFrameHitboxes))) {
+            drawVector(matrices, vertices, new Vector3f(0.0F, entity.getStandingEyeHeight(), 0.0F), entity.getRotationVec(tickDelta).multiply(2.0F), CONFIG.entityRotationVectorColor.toInt());
         }
 
         ci.cancel();

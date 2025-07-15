@@ -1,12 +1,10 @@
 {
 	"schemaVersion": 1,
 	"id": "pretty-hitboxes",
-	"version": "1.2.0",
+	"version": "${version}",
 	"name": "Pretty Hitboxes",
 	"description": "Fully configurable hitbox rendering.",
-	"authors": [
-		"ErrorGamer2000"
-	],
+	"authors": [ "ErrorGamer2000", "TheEnderCore" ],
 	"contact": {
 		"homepage": "https://fabricmc.net/",
 		"sources": "https://github.com/FabricMC/fabric-example-mod"
@@ -17,8 +15,7 @@
 	"entrypoints": {
 		"client": [
 			"com.errorgamer2000.mcplugins.prettyhitbox.PrettyHitboxesModClient"
-		],
-		"modmenu": ["com.errorgamer2000.mcplugins.prettyhitbox.PrettyHitboxesModMenuIntegration"]
+		]
 	},
 	"mixins": [
 		{
