@@ -5,7 +5,6 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.theendercore.prettier_hitbox.client.utils.HitboxWithAlpha;
 import net.minecraft.client.render.entity.EnderDragonEntityRenderer;
 import net.minecraft.client.render.entity.state.EntityHitbox;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonPart;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,7 +17,7 @@ import static com.theendercore.prettier_hitbox.client.PrettierHitboxesModClient.
 import static com.theendercore.prettier_hitbox.client.utils.PHHelpers.isTargeted;
 
 @Mixin(EnderDragonEntityRenderer.class)
-public abstract class EnderDragonEntityRendererMixin<T extends LivingEntity> {
+public abstract class EnderDragonEntityRendererMixin {
 
 
     @Inject(method = "appendHitboxes(Lnet/minecraft/entity/boss/dragon/EnderDragonEntity;Lcom/google/common/collect/ImmutableList$Builder;F)V", at = @At("HEAD"), cancellable = true)

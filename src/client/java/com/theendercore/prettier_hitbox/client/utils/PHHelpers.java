@@ -9,7 +9,6 @@ import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.entity.decoration.painting.PaintingEntity;
 import net.minecraft.entity.projectile.thrown.ThrownEntity;
-import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
 import net.minecraft.entity.vehicle.AbstractBoatEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
