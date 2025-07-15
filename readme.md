@@ -1,7 +1,7 @@
 # Prettier Hitboxes
 
 Prettier Hitboxes is a fork of [Pretty hitboxes](https://modrinth.com/mod/pretty-hitboxes). Updated to the latest
-version of the game. And using Fzzy config.
+version of the game and using Fzzy config.
 
 
 Original Description:
