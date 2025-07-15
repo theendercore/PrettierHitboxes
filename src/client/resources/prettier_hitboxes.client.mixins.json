@@ -1,12 +1,18 @@
 {
-	"required": true,
-	"package": "com.theendercore.prettier_hitbox.client.mixin",
-	"compatibilityLevel": "JAVA_17",
-	"client": [
-		"MinecraftClientMixin",
-		"EntityRenderDispatcherMixin"
-	],
-	"injectors": {
-		"defaultRequire": 1
-	}
+  "required": true,
+  "package": "com.theendercore.prettier_hitbox.client.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "client": [
+    "EnderDragonEntityRendererMixin",
+    "EntityHitboxMixin",
+    "EntityRenderDispatcherMixin",
+    "LivingEntityRendererMixin",
+    "MinecraftClientMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "mixins": [
+    "EntityRendererMixin"
+	]
 }

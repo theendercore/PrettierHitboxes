@@ -32,7 +32,7 @@ public class PrettierHitboxesConfig extends Config {
     public ValidatedColor dragonPartColor = new ValidatedColor(0, 255, 0, 255);
     public ValidatedColor eyeHeightColor = new ValidatedColor(255, 0, 0, 255);
     public ValidatedColor entityRotationVectorColor = new ValidatedColor(0, 0, 255, 255);
-    public ValidatedColor entityTargetedColor = new ValidatedColor(100, 100, 100);
+    public ValidatedColor entityTargetedColor = new ValidatedColor(100, 100, 100, 255);
     @ConfigGroup.Pop
     public ValidatedColor itemHitboxColor = new ValidatedColor(true);
 }
