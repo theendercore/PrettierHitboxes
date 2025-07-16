@@ -1,6 +1,7 @@
 package com.theendercore.prettier_hitbox.client.utils;
 
 import com.google.common.collect.ImmutableList;
+import me.fzzyhmstrs.fzzy_config.validation.misc.ValidatedColor;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.entity.state.EntityHitbox;
 import net.minecraft.entity.Entity;
@@ -55,12 +56,14 @@ public interface PHHelpers {
     static <T extends Entity> EntityHitbox getEntityHitbox(T entity) {
         if (entity instanceof EnderDragonEntity && CONFIG.hideBigDragonBox) return null;
         Box box = entity.getBoundingBox();
-        var color = (isTargeted(entity)) ? CONFIG.entityTargetedColor : CONFIG.boundingBoxColor;
-        var hitBox = new EntityHitbox(
-                box.minX - entity.getX(), box.minY - entity.getY(), box.minZ - entity.getZ(),
-                box.maxX - entity.getX(), box.maxY - entity.getY(), box.maxZ - entity.getZ(),
-                clampColor(color.r()), clampColor(color.g()), clampColor(color.b())
-        );
+        ValidatedColor color;
+        if (isTargeted(entity)) {
+            color = CONFIG.entityTargetedColor;
+        } else {
+            color = (entity instanceof ItemEntity) ? CONFIG.itemHitboxColor : CONFIG.boundingBoxColor;
+        }
+
+        var hitBox = new EntityHitbox(box.minX - entity.getX(), box.minY - entity.getY(), box.minZ - entity.getZ(), box.maxX - entity.getX(), box.maxY - entity.getY(), box.maxZ - entity.getZ(), clampColor(color.r()), clampColor(color.g()), clampColor(color.b()));
         if ((Object) hitBox instanceof HitboxWithAlpha alphaBox) {
             alphaBox.prettier_hitboxes_setAlpha(clampColor(color.a()));
         }
