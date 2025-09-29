@@ -5,7 +5,7 @@
   "client": [
     "EnderDragonEntityRendererMixin",
     "EntityHitboxMixin",
-    "EntityRenderDispatcherMixin",
+    "HitboxFeatureRendererMixin",
     "LivingEntityRendererMixin",
     "MinecraftClientMixin"
   ],
