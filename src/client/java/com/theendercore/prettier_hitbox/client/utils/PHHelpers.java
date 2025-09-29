@@ -43,7 +43,6 @@ public interface PHHelpers {
         Entity entity2 = entity.getVehicle();
         if (entity2 != null) {
             float f = Math.min(entity2.getBbWidth(), entity.getBbWidth()) / 2.0F;
-            float g = 0.0625F;
             Vec3 vec3d = entity2.getPassengerRidingPosition(entity).subtract(entity.position());
             HitboxRenderState entityHitbox2 = new HitboxRenderState(vec3d.x - f, vec3d.y, vec3d.z - f, vec3d.x + f, vec3d.y + 0.0625, vec3d.z + f, 1.0F, 1.0F, 0.0F);
             builder.add(entityHitbox2);
