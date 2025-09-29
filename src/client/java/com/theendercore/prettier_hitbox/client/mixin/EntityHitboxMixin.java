@@ -2,12 +2,12 @@ package com.theendercore.prettier_hitbox.client.mixin;
 
 import com.theendercore.prettier_hitbox.client.utils.HitboxWithAlpha;
 import me.fzzyhmstrs.fzzy_config.validation.misc.ValidatedColor;
-import net.minecraft.client.render.entity.state.EntityHitbox;
+import net.minecraft.client.renderer.entity.state.HitboxRenderState;
 import org.spongepowered.asm.mixin.*;
 
 import static com.theendercore.prettier_hitbox.client.utils.PHHelpers.clampColor;
 
-@Mixin(EntityHitbox.class)
+@Mixin(HitboxRenderState.class)
 public class EntityHitboxMixin implements HitboxWithAlpha {
     @Mutable @Shadow @Final private float red;
     @Mutable @Shadow @Final private float green;

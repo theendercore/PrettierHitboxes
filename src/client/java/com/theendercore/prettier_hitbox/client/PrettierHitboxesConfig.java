@@ -3,14 +3,14 @@ package com.theendercore.prettier_hitbox.client;
 import me.fzzyhmstrs.fzzy_config.config.Config;
 import me.fzzyhmstrs.fzzy_config.config.ConfigGroup;
 import me.fzzyhmstrs.fzzy_config.validation.misc.ValidatedColor;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import static com.theendercore.prettier_hitbox.client.PrettierHitboxesModClient.MODID;
 
 @SuppressWarnings("unused")
 public class PrettierHitboxesConfig extends Config {
     public PrettierHitboxesConfig() {
-        super(Identifier.of(MODID, MODID));
+        super(ResourceLocation.fromNamespaceAndPath(MODID, MODID));
     }
 
     public ConfigGroup features = new ConfigGroup("features");
